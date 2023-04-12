@@ -1,0 +1,32 @@
+type PalletSpot {
+  id: ID
+  row: Int
+  gap: Int
+  spot: Int
+  pallet: Pallet
+  shelf: Boolean
+}
+
+type Query {
+  palletSpots: [PalletSpot]
+  palletSpotById(id: ID!): PalletSpot
+}
+
+type Mutation {
+  createPalletSpot(
+    row: Int!
+    gap: Int!
+    spot: Int!
+    pallet: ID
+    shelf: Boolean
+  ): PalletSpot
+  updatePalletSpot(
+    id: ID!
+    row: Int
+    gap: Int
+    spot: Int
+    pallet: ID
+    shelf: Boolean
+  ): PalletSpot
+  deletePalletSpot(id: ID!): PalletSpot
+}

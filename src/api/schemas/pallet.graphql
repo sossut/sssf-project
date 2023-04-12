@@ -1,0 +1,28 @@
+scalar DateTime
+
+type Pallet {
+  id: ID
+  products: [Product]
+  arrival: DateTime
+  lastModified: DateTime
+}
+
+type Query {
+  pallets: [Pallet]
+  palletById(id: ID!): Pallet
+}
+
+type Mutation {
+  createPallet(
+    products: [ID]!
+    arrival: DateTime
+    lastModified: DateTime
+  ): Pallet
+  updatePallet(
+    id: ID!
+    products: [ID]
+    arrival: DateTime
+    lastModified: DateTime
+  ): Pallet
+  deletePallet(id: ID!): Pallet
+}
