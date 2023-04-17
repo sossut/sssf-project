@@ -12,7 +12,7 @@ export default {
   Query: {
     //Get all pallets with their products
     pallets: async () => {
-      return await palletModel.find().populate('products').exec();
+      return await palletModel.find().populate('products');
     },
     //Get all pallets by their id with their products
     palletById: async (_parent: unknown, args: Pallet) => {

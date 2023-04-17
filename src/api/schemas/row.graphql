@@ -1,0 +1,11 @@
+type Row {
+  id: ID
+  row: Int
+  gaps: Int
+}
+
+type Mutation {
+  createRow(id: ID!, row: Int, gaps: Int): Row
+  updateRow(id: ID!, row: Int, gaps: Int): Row
+  deleteRow(id: ID!): Row
+}

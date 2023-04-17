@@ -1,0 +1,11 @@
+type Gap {
+  id: ID
+  gap: Int
+  row: Row
+  spots: Int
+}
+type Mutation {
+  createGap(id: ID!, gap: Int!, row: ID!, spots: Int): Gap
+  updateGap(id: ID!, gap: Int, row: ID, spots: Int): Gap
+  deleteGap(id: ID!): Gap
+}
