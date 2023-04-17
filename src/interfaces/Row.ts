@@ -1,7 +1,7 @@
 import {Document} from 'mongoose';
 
 interface Row extends Document {
-  row: number;
+  rowNumber: number;
   gaps: number;
 }
 

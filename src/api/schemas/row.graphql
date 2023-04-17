@@ -1,11 +1,11 @@
 type Row {
   id: ID
-  row: Int
+  rowNumber: Int
   gaps: Int
 }
 type Query {
   rows: [Row]
-  row(id: ID!): Row
+  rowById(id: ID!): Row
 }
 type Mutation {
   createRow(id: ID!, row: Int, gaps: Int): Row
