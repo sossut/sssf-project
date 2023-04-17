@@ -1,6 +1,6 @@
 type PalletSpot {
   id: ID
-  row: Int
+  row: Row
   gap: Int
   spot: Int
   pallet: Pallet
@@ -14,7 +14,7 @@ type Query {
 
 type Mutation {
   createPalletSpot(
-    row: Int!
+    row: ID!
     gap: Int!
     spot: Int!
     pallet: ID
@@ -22,7 +22,7 @@ type Mutation {
   ): PalletSpot
   updatePalletSpot(
     id: ID!
-    row: Int
+    row: ID
     gap: Int
     spot: Int
     pallet: ID

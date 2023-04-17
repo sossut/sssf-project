@@ -3,7 +3,10 @@ type Row {
   row: Int
   gaps: Int
 }
-
+type Query {
+  rows: [Row]
+  row(id: ID!): Row
+}
 type Mutation {
   createRow(id: ID!, row: Int, gaps: Int): Row
   updateRow(id: ID!, row: Int, gaps: Int): Row

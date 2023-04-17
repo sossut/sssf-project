@@ -7,12 +7,14 @@ export default {
       return await palletSpotModel.find();
     },
     palletSpotById: async (_parent: undefined, args: PalletSpot) => {
-      return await palletSpotModel.findById(args.id);
+      return await palletSpotModel.findById(args.id).populate('row');
     },
   },
   Mutation: {
     createPalletSpot: async (_parent: undefined, args: PalletSpot) => {
+      console.log(args);
       const ps = new palletSpotModel(args);
+      console.log(ps);
       return await ps.save();
     },
     updatePalletSpot: async (_parent: unknown, args: PalletSpot) => {
