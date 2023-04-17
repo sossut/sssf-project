@@ -3,19 +3,19 @@ import {PalletSpot} from '../../interfaces/PalletSpot';
 
 const palletSpotModel = new mongoose.Schema<PalletSpot>({
   row: {
-    type: Number,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Row',
     required: true,
-    unique: false,
   },
   gap: {
-    type: Number,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Gap',
     required: true,
-    unique: false,
   },
   spot: {
-    type: Number,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Spot',
     required: true,
-    unique: false,
   },
   pallet: {
     type: mongoose.Schema.Types.ObjectId,
@@ -26,6 +26,10 @@ const palletSpotModel = new mongoose.Schema<PalletSpot>({
     type: Boolean,
     default: false,
   },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
 });
-
+palletSpotModel.index({row: 1, gap: 1, spot: 1}, {unique: true});
 export default mongoose.model<PalletSpot>('PalletSpot', palletSpotModel);

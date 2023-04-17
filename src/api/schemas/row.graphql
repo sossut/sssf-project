@@ -1,11 +1,14 @@
 type Row {
   id: ID
-  row: Int
+  rowNumber: Int
   gaps: Int
 }
-
+type Query {
+  rows: [Row]
+  rowById(id: ID!): Row
+}
 type Mutation {
-  createRow(id: ID!, row: Int, gaps: Int): Row
-  updateRow(id: ID!, row: Int, gaps: Int): Row
+  createRow(rowNumber: Int, gaps: Int): Row
+  updateRow(id: ID!, rowNumber: Int, gaps: Int): Row
   deleteRow(id: ID!): Row
 }

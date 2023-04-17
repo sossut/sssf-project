@@ -7,7 +7,15 @@ import gapModel from '../models/gapModel';
 export default {
   Spot: {
     gap: async (parent: Spot) => {
-      return await gapModel.findById(parent.id);
+      return await gapModel.findById(parent.gap);
+    },
+  },
+  Query: {
+    gaps: async () => {
+      return await gapModel.find();
+    },
+    gapById: async (_parent: undefined, args: Gap) => {
+      return await gapModel.findById(args.id).populate('gap');
     },
   },
   Mutation: {

@@ -2,6 +2,14 @@ import {Spot} from '../../interfaces/Spot';
 import spotModel from '../models/spotModel';
 
 export default {
+  Query: {
+    spots: async () => {
+      return await spotModel.find();
+    },
+    spotById: async (_parent: undefined, args: Spot) => {
+      return await spotModel.findById(args.id);
+    },
+  },
   Mutation: {
     createSpot: async (_parent: undefined, args: Spot) => {
       const spot = new spotModel(args);

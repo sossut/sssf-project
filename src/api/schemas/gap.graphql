@@ -1,11 +1,15 @@
 type Gap {
   id: ID
-  gap: Int
+  gapNumber: Int
   row: Row
   spots: Int
 }
+type Query {
+  gapById(id: ID!): Gap
+  gaps: [Gap]
+}
 type Mutation {
-  createGap(id: ID!, gap: Int!, row: ID!, spots: Int): Gap
-  updateGap(id: ID!, gap: Int, row: ID, spots: Int): Gap
+  createGap(gapNumber: Int!, row: ID!, spots: Int): Gap
+  updateGap(id: ID!, gapNumber: Int, row: ID, spots: Int): Gap
   deleteGap(id: ID!): Gap
 }

@@ -1,11 +1,14 @@
 type Spot {
   id: ID
+  spotNumber: Int
   gap: Gap
-  shelf: Boolean
 }
-
+type Query {
+  spotById(id: ID!): Spot
+  spots: [Spot]
+}
 type Mutation {
-  createSpot(id: ID!, gap: ID!, shelf: Boolean!): Spot
-  updateSpot(id: ID!, gap: ID, shelf: Boolean): Spot
+  createSpot(spotNumber: Int!, gap: ID!): Spot
+  updateSpot(id: ID!, spotNumber: Int, gap: ID): Spot
   deleteSpot(id: ID!): Spot
 }

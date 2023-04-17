@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import {Row} from '../../interfaces/Row';
 
 const rowModel = new mongoose.Schema<Row>({
-  row: {
+  rowNumber: {
     type: Number,
     required: true,
     unique: true,
