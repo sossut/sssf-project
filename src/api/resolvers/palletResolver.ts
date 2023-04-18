@@ -14,50 +14,7 @@ export default {
     //Get all pallets with their products
     pallets: async () => {
       const jotain = await palletModel.find().populate('products');
-      // console.log(jotain[0].products);
 
-      const joootain = [
-        {
-          id: '643d28cc1175c7575df31ff5',
-          products: [
-            {
-              name: 'Lautanen 10cm',
-              weight: 0.5,
-              code: '3391',
-              __v: 0,
-            },
-            {
-              name: 'Lautanen 25cm',
-              weight: 0.8,
-              code: '5040',
-              __v: 0,
-            },
-          ],
-          arrival: '2023-04-17T11:08:46.177Z',
-          lastModified: '2023-04-17T11:08:46.177Z',
-          __v: 0,
-        },
-        {
-          id: '643d292094602840ebbe8448',
-          products: [
-            {
-              name: 'Lautanen 10cm',
-              weight: 0.5,
-              code: '3391',
-              __v: 0,
-            },
-            {
-              name: 'Lautanen 25cm',
-              weight: 0.8,
-              code: '5040',
-              __v: 0,
-            },
-          ],
-          arrival: '2023-04-17T11:10:23.156Z',
-          lastModified: '2023-04-17T11:10:23.156Z',
-          __v: 0,
-        },
-      ];
       return jotain;
     },
     //Get all pallets by their id with their products

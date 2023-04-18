@@ -1,10 +1,10 @@
-import {PalletSpot} from '../../interfaces/PalletSpot';
+import {Gap} from '../../interfaces/Gap';
 import {Row} from '../../interfaces/Row';
 import rowModel from '../models/rowModel';
 
 export default {
-  PalletSpot: {
-    row: async (parent: PalletSpot) => {
+  Gap: {
+    row: async (parent: Gap) => {
       return await rowModel.findById(parent.row);
     },
   },
