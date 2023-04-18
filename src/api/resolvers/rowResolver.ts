@@ -5,7 +5,6 @@ import rowModel from '../models/rowModel';
 export default {
   PalletSpot: {
     row: async (parent: PalletSpot) => {
-      console.log(parent);
       return await rowModel.findById(parent.row);
     },
   },

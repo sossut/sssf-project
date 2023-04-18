@@ -7,7 +7,7 @@ export default {
       return await palletSpotModel.find();
     },
     palletSpotById: async (_parent: undefined, args: PalletSpot) => {
-      return await palletSpotModel.findById(args.id).populate('row');
+      return await palletSpotModel.findById(args.id);
     },
   },
   Mutation: {
@@ -17,12 +17,12 @@ export default {
       console.log(ps);
       return await ps.save();
     },
-    updatePalletSpot: async (_parent: unknown, args: PalletSpot) => {
+    updatePalletSpot: async (_parent: undefined, args: PalletSpot) => {
       return await palletSpotModel.findByIdAndUpdate(args.id, args, {
         new: true,
       });
     },
-    deletePalletSpot: async (_parent: unknown, args: PalletSpot) => {
+    deletePalletSpot: async (_parent: undefined, args: PalletSpot) => {
       return await palletSpotModel.findByIdAndDelete(args.id);
     },
   },

@@ -12,19 +12,19 @@ export default {
     products: async () => {
       return await productModel.find();
     },
-    productById: async (_parent: unknown, args: Product) => {
+    productById: async (_parent: undefined, args: Product) => {
       return await productModel.findById(args.id);
     },
   },
   Mutation: {
-    createProduct: async (_parent: unknown, args: Product) => {
+    createProduct: async (_parent: undefined, args: Product) => {
       const product = new productModel(args);
       return await product.save();
     },
-    updateProduct: async (_parent: unknown, args: Product) => {
+    updateProduct: async (_parent: undefined, args: Product) => {
       return await productModel.findByIdAndUpdate(args.id, args, {new: true});
     },
-    deleteProduct: async (_parent: unknown, args: Product) => {
+    deleteProduct: async (_parent: undefined, args: Product) => {
       return await productModel.findByIdAndDelete(args.id);
     },
   },

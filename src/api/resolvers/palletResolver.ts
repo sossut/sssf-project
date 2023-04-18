@@ -12,27 +12,34 @@ export default {
   Query: {
     //Get all pallets with their products
     pallets: async () => {
-      return await palletModel.find().populate('products');
+      return await palletModel.find().populate({
+        path: 'products',
+        populate: {
+          path: 'Product',
+        },
+      });
     },
     //Get all pallets by their id with their products
-    palletById: async (_parent: unknown, args: Pallet) => {
-      return await palletModel.findById(args.id).populate('products');
+    palletById: async (_parent: undefined, args: Pallet) => {
+      return await palletModel.findById(args.id).populate({
+        path: 'products',
+      });
     },
   },
   Mutation: {
-    createPallet: async (_parent: unknown, args: Pallet) => {
+    createPallet: async (_parent: undefined, args: Pallet) => {
       console.log(args);
       const pallet = new palletModel(args);
       return await pallet.save();
     },
-    updatePallet: async (_parent: unknown, args: Pallet) => {
+    updatePallet: async (_parent: undefined, args: Pallet) => {
       const now = new Date();
       args.lastModified = now;
       return await palletModel.findByIdAndUpdate(args.id, args, {
         new: true,
       });
     },
-    deletePallet: async (_parent: unknown, args: Pallet) => {
+    deletePallet: async (_parent: undefined, args: Pallet) => {
       return await palletModel.findByIdAndDelete(args.id);
     },
   },
