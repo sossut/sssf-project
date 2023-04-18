@@ -37,7 +37,13 @@ const app = express();
       includeStacktraceInErrorResponses: false,
     });
     await server.start();
-
+    const corsOptions = {
+      origin: '*',
+      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+      accessControlAllowOrigin: '*',
+      accessControlAllowCredentials: true,
+    };
+    app.use(cors(corsOptions));
     app.use(
       '/graphql',
       cors<cors.CorsRequest>(),

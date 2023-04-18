@@ -5,7 +5,8 @@ import productModel from '../models/productModel';
 export default {
   Pallet: {
     products: async (parent: Pallet) => {
-      return await productModel.findById(parent.products);
+      console.log(parent.products);
+      return await productModel.find({_id: {$in: parent.products}});
     },
   },
   Query: {
