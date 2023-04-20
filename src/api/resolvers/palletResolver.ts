@@ -19,9 +19,7 @@ export default {
     },
     //Get all pallets by their id with their products
     palletById: async (_parent: undefined, args: Pallet) => {
-      return await palletModel.findById(args.id).populate({
-        path: 'products',
-      });
+      return await palletModel.findById(args.id).populate('products');
     },
   },
   Mutation: {

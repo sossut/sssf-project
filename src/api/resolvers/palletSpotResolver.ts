@@ -7,6 +7,7 @@ export default {
       return await palletSpotModel.find();
     },
     palletSpotById: async (_parent: undefined, args: PalletSpot) => {
+      console.log(args);
       return await palletSpotModel.findById(args.id);
     },
   },
