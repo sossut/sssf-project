@@ -10,6 +10,7 @@ type Pallet {
 type Query {
   pallets: [Pallet]
   palletById(id: ID!): Pallet
+  palletsByProduct(product: ID!): [Pallet]
 }
 
 type Mutation {

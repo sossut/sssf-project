@@ -16,6 +16,9 @@ export default {
     productById: async (_parent: undefined, args: Product) => {
       return await productModel.findById(args.id);
     },
+    productByCode: async (_parent: undefined, args: Product) => {
+      return await productModel.findOne({code: args.code});
+    },
   },
   Mutation: {
     createProduct: async (_parent: undefined, args: Product) => {

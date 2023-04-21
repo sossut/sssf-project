@@ -8,6 +8,7 @@ type Product {
 type Query {
   products: [Product]
   productById(id: ID!): Product
+  productByCode(code: String!): Product
 }
 
 type Mutation {

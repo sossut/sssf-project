@@ -1,4 +1,5 @@
 import {PalletSpot} from '../../interfaces/PalletSpot';
+
 import palletSpotModel from '../models/palletSpotModel';
 
 export default {
@@ -9,6 +10,13 @@ export default {
     palletSpotById: async (_parent: undefined, args: PalletSpot) => {
       console.log(args);
       return await palletSpotModel.findById(args.id);
+    },
+    palletSpotsByPallet: async (_parent: undefined, args: any) => {
+      console.log(args);
+
+      return await palletSpotModel.find({
+        pallet: args.pallet,
+      });
     },
   },
   Mutation: {

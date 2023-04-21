@@ -21,6 +21,13 @@ export default {
     palletById: async (_parent: undefined, args: Pallet) => {
       return await palletModel.findById(args.id).populate('products');
     },
+    palletsByProduct: async (_parent: undefined, args: any) => {
+      console.log(args);
+
+      return await palletModel.find({
+        products: args.product,
+      });
+    },
   },
   Mutation: {
     createPallet: async (_parent: undefined, args: Pallet) => {
