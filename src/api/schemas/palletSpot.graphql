@@ -3,6 +3,7 @@ type PalletSpot {
   spot: Spot
   pallet: Pallet
   shelf: Boolean
+  disabled: Boolean
 }
 
 type Query {
@@ -12,7 +13,18 @@ type Query {
 }
 
 type Mutation {
-  createPalletSpot(spot: ID!, pallet: ID, shelf: Boolean): PalletSpot
-  updatePalletSpot(id: ID!, spot: ID, pallet: ID, shelf: Boolean): PalletSpot
+  createPalletSpot(
+    spot: ID!
+    pallet: ID
+    shelf: Boolean
+    disabled: Boolean
+  ): PalletSpot
+  updatePalletSpot(
+    id: ID!
+    spot: ID
+    pallet: ID
+    shelf: Boolean
+    disabled: Boolean
+  ): PalletSpot
   deletePalletSpot(id: ID!): PalletSpot
 }

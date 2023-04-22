@@ -38,6 +38,7 @@ export default {
     updatePallet: async (_parent: undefined, args: Pallet) => {
       const now = new Date();
       args.lastModified = now;
+
       return await palletModel.findByIdAndUpdate(args.id, args, {
         new: true,
       });
