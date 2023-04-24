@@ -33,5 +33,5 @@ const palletSpotModel = new mongoose.Schema<PalletSpot>({
   },
 });
 palletSpotModel.index({spot: 1}, {unique: true});
-palletSpotModel.index({pallet: 1}, {unique: true});
+
 export default mongoose.model<PalletSpot>('PalletSpot', palletSpotModel);
