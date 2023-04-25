@@ -15,13 +15,11 @@ const palletSpotModel = new mongoose.Schema<PalletSpot>({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Spot',
     required: true,
-    unique: true,
   },
   pallet: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Pallet',
     required: false,
-    unique: true,
   },
   shelf: {
     type: Boolean,
