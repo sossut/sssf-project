@@ -18,6 +18,13 @@ export default {
         pallet: args.pallet,
       });
     },
+    palletSpotBySpot: async (_parent: undefined, args: any) => {
+      console.log(args);
+
+      return await palletSpotModel.findOne({
+        spot: args.spot,
+      });
+    },
   },
   Mutation: {
     createPalletSpot: async (_parent: undefined, args: PalletSpot) => {

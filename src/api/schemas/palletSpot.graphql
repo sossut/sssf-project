@@ -10,6 +10,7 @@ type Query {
   palletSpots: [PalletSpot]
   palletSpotById(id: ID!): PalletSpot
   palletSpotsByPallet(pallet: ID!): [PalletSpot]
+  palletSpotBySpot(spot: ID!): PalletSpot
 }
 
 type Mutation {
