@@ -6,6 +6,7 @@ type Spot {
 type Query {
   spotById(id: ID!): Spot
   spots: [Spot]
+  spotByRowGap(spotNumber: Int!, gapNumber: Int!, rowNumber: Int!): Spot
 }
 type Mutation {
   createSpot(spotNumber: Int!, gap: ID!): Spot
