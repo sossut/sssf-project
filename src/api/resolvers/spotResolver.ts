@@ -39,6 +39,31 @@ export default {
       const spot = new spotModel(args);
       return await spot.save();
     },
+    createSpots: async (_parent: undefined, args: any) => {
+      for (let i = 0; i < args.numberOfRows; i++) {
+        const row = new rowModel({
+          rowNumber: i + 1,
+          gaps: args.rowData[i],
+        });
+        await row.save();
+
+        for (let j = 0; j < args.rowData[i]; j++) {
+          const gap = new gapModel({
+            row: row._id,
+            gapNumber: j + 1,
+          });
+          await gap.save();
+
+          for (let k = 0; k < gap.spots; k++) {
+            const spot = new spotModel({
+              spotNumber: k + 1,
+              gap: gap._id,
+            });
+            await spot.save();
+          }
+        }
+      }
+    },
     updateSpot: async (_parent: undefined, args: Spot) => {
       return await spotModel.findByIdAndUpdate(args.id, args, {new: true});
     },
