@@ -49,7 +49,7 @@ export default {
           username: user.username,
         },
         'secret',
-        {expiresIn: '1y'}
+        {expiresIn: '365d'}
       );
       user.token = token;
       return await user.save();
@@ -63,7 +63,7 @@ export default {
             username: user.username,
           },
           'secret',
-          {expiresIn: '1y'}
+          {expiresIn: '365d'}
         );
         user.token = token;
 
