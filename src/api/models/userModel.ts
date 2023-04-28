@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 import {User} from '../../interfaces/User';
 
 const userModel = new mongoose.Schema<User>({
-  user_name: {
+  username: {
     type: String,
     required: true,
     unique: true,
@@ -13,11 +13,13 @@ const userModel = new mongoose.Schema<User>({
   password: {
     type: String,
     required: true,
-    unique: true,
   },
   role: {
     type: String,
     default: 'user',
+  },
+  token: {
+    type: String,
   },
 });
 

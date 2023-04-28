@@ -7,8 +7,11 @@
 // 2.2. updateUser
 // 2.3. deleteUser
 
-import {User} from '../../interfaces/User';
+import {User, UserIdWithToken, UserOutput} from '../../interfaces/User';
 import userModel from '../models/userModel';
+import {GraphQLError} from 'graphql';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
 export default {
   Query: {
@@ -18,11 +21,62 @@ export default {
     userById: async (_parent: undefined, args: User) => {
       return await userModel.findById(args.id);
     },
+    checkToken: async (
+      _parent: undefined,
+      _args: undefined,
+      user: UserIdWithToken
+    ) => {
+      console.log(user);
+      const response = await userModel.find({token: user.token});
+      if (!response) {
+        throw new GraphQLError('Invalid token');
+      }
+      return response;
+    },
   },
   Mutation: {
     createUser: async (_parent: undefined, args: User) => {
+      const oldUser = await userModel.findOne({username: args.username});
+      if (oldUser) {
+        throw new GraphQLError('Username already exists');
+      }
+      const ecryptedPassword = await bcrypt.hash(args.password, 10);
+      args.password = ecryptedPassword;
       const user = new userModel(args);
+      const token = jwt.sign(
+        {
+          id: user._id,
+          username: user.username,
+        },
+        'secret',
+        {expiresIn: '1y'}
+      );
+      user.token = token;
       return await user.save();
+    },
+    loginUser: async (_parent: undefined, args: User) => {
+      const user = await userModel.findOne({username: args.username});
+      if (user && (await bcrypt.compare(args.password, user.password))) {
+        const token = jwt.sign(
+          {
+            id: user._id,
+            username: user.username,
+          },
+          'secret',
+          {expiresIn: '1y'}
+        );
+        user.token = token;
+
+        const message = {
+          message: 'Login successful',
+          token,
+          username: user.username,
+          id: user._id,
+        };
+        return message;
+      } else {
+        throw new GraphQLError('Invalid username or password');
+      }
     },
     updateUser: async (_parent: undefined, args: User) => {
       console.log(args);

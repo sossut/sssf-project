@@ -1,4 +1,6 @@
+import {GraphQLError} from 'graphql';
 import {PalletSpot} from '../../interfaces/PalletSpot';
+import {UserIdWithToken} from '../../interfaces/User';
 import gapModel from '../models/gapModel';
 
 import palletSpotModel from '../models/palletSpotModel';
@@ -30,13 +32,31 @@ export default {
     },
   },
   Mutation: {
-    createPalletSpot: async (_parent: undefined, args: PalletSpot) => {
+    createPalletSpot: async (
+      _parent: undefined,
+      args: PalletSpot,
+      user: UserIdWithToken
+    ) => {
+      if (!user.token) {
+        throw new GraphQLError('Not authorized', {
+          extensions: {code: 'UNAUTHENTICATED'},
+        });
+      }
       console.log(args);
       const ps = new palletSpotModel(args);
       console.log(ps);
       return await ps.save();
     },
-    createPalletSpots: async (_parent: undefined, args: any) => {
+    createPalletSpots: async (
+      _parent: undefined,
+      args: any,
+      user: UserIdWithToken
+    ) => {
+      if (!user.token) {
+        throw new GraphQLError('Not authorized', {
+          extensions: {code: 'UNAUTHENTICATED'},
+        });
+      }
       const array = [];
       for (let i = 0; i < args.numberOfRows; i++) {
         const row = new rowModel({
@@ -68,12 +88,30 @@ export default {
       }
       return array;
     },
-    updatePalletSpot: async (_parent: undefined, args: PalletSpot) => {
+    updatePalletSpot: async (
+      _parent: undefined,
+      args: PalletSpot,
+      user: UserIdWithToken
+    ) => {
+      if (!user.token) {
+        throw new GraphQLError('Not authorized', {
+          extensions: {code: 'UNAUTHENTICATED'},
+        });
+      }
       return await palletSpotModel.findByIdAndUpdate(args.id, args, {
         new: true,
       });
     },
-    deletePalletSpot: async (_parent: undefined, args: PalletSpot) => {
+    deletePalletSpot: async (
+      _parent: undefined,
+      args: PalletSpot,
+      user: UserIdWithToken
+    ) => {
+      if (!user.token) {
+        throw new GraphQLError('Not authorized', {
+          extensions: {code: 'UNAUTHENTICATED'},
+        });
+      }
       return await palletSpotModel.findByIdAndDelete(args.id);
     },
   },

@@ -5,18 +5,27 @@
 
 type User {
   id: ID
-  user_name: String
+  username: String
   password: String
   role: String
+  token: String
+}
+
+type TokenMessage {
+  token: String
+  message: String!
+  user: User!
 }
 
 type Query {
   users: [User]
   userById(id: ID!): User
+  checkToken: TokenMessage
 }
 
 type Mutation {
-  createUser(user_name: String!, password: String!): User
-  updateUser(id: ID!, user_name: String, password: String): User
+  createUser(username: String!, password: String!): User
+  loginUser(username: String!, password: String!): User
+  updateUser(id: ID!, username: String, password: String): User
   deleteUser(id: ID!): User
 }

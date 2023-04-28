@@ -1,5 +1,7 @@
+import {GraphQLError} from 'graphql';
 import {Gap} from '../../interfaces/Gap';
 import {Row} from '../../interfaces/Row';
+import {UserIdWithToken} from '../../interfaces/User';
 import rowModel from '../models/rowModel';
 
 export default {
@@ -17,15 +19,30 @@ export default {
     },
   },
   Mutation: {
-    createRow: async (_parent: undefined, args: Row) => {
+    createRow: async (_parent: undefined, args: Row, user: UserIdWithToken) => {
+      if (!user.token) {
+        throw new GraphQLError('Not authorized', {
+          extensions: {code: 'UNAUTHENTICATED'},
+        });
+      }
       console.log(args);
       const row = new rowModel(args);
       return await row.save();
     },
-    updateRow: async (_parent: undefined, args: Row) => {
+    updateRow: async (_parent: undefined, args: Row, user: UserIdWithToken) => {
+      if (!user.token) {
+        throw new GraphQLError('Not authorized', {
+          extensions: {code: 'UNAUTHENTICATED'},
+        });
+      }
       return await rowModel.findByIdAndUpdate(args.id, args, {new: true});
     },
-    deleteRow: async (_parent: undefined, args: Row) => {
+    deleteRow: async (_parent: undefined, args: Row, user: UserIdWithToken) => {
+      if (!user.token) {
+        throw new GraphQLError('Not authorized', {
+          extensions: {code: 'UNAUTHENTICATED'},
+        });
+      }
       return await rowModel.findByIdAndDelete(args.id);
     },
   },

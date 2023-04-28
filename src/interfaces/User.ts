@@ -1,8 +1,19 @@
 import {Document} from 'mongoose';
 interface User extends Document {
-  user_name: string;
+  username: string;
   password: string;
   role: 'user' | 'admin';
+  token: string;
 }
 
-export {User};
+interface UserOutput {
+  id: string;
+  username: string;
+  role?: 'user' | 'admin';
+}
+
+interface UserIdWithToken {
+  id: string;
+  token: string;
+}
+export {User, UserOutput, UserIdWithToken};

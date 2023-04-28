@@ -1,5 +1,7 @@
+import {GraphQLError} from 'graphql';
 import {Pallet} from '../../interfaces/Pallet';
 import {Product} from '../../interfaces/Product';
+import {UserIdWithToken} from '../../interfaces/User';
 import productModel from '../models/productModel';
 
 export default {
@@ -21,14 +23,41 @@ export default {
     },
   },
   Mutation: {
-    createProduct: async (_parent: undefined, args: Product) => {
+    createProduct: async (
+      _parent: undefined,
+      args: Product,
+      user: UserIdWithToken
+    ) => {
+      if (!user.token) {
+        throw new GraphQLError('Not authorized', {
+          extensions: {code: 'UNAUTHENTICATED'},
+        });
+      }
       const product = new productModel(args);
       return await product.save();
     },
-    updateProduct: async (_parent: undefined, args: Product) => {
+    updateProduct: async (
+      _parent: undefined,
+      args: Product,
+      user: UserIdWithToken
+    ) => {
+      if (!user.token) {
+        throw new GraphQLError('Not authorized', {
+          extensions: {code: 'UNAUTHENTICATED'},
+        });
+      }
       return await productModel.findByIdAndUpdate(args.id, args, {new: true});
     },
-    deleteProduct: async (_parent: undefined, args: Product) => {
+    deleteProduct: async (
+      _parent: undefined,
+      args: Product,
+      user: UserIdWithToken
+    ) => {
+      if (!user.token) {
+        throw new GraphQLError('Not authorized', {
+          extensions: {code: 'UNAUTHENTICATED'},
+        });
+      }
       return await productModel.findByIdAndDelete(args.id);
     },
   },

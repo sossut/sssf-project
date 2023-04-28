@@ -1,5 +1,7 @@
+import {GraphQLError} from 'graphql';
 import {Pallet} from '../../interfaces/Pallet';
 import {PalletSpot} from '../../interfaces/PalletSpot';
+import {UserIdWithToken} from '../../interfaces/User';
 
 import palletModel from '../models/palletModel';
 
@@ -30,12 +32,30 @@ export default {
     },
   },
   Mutation: {
-    createPallet: async (_parent: undefined, args: Pallet) => {
+    createPallet: async (
+      _parent: undefined,
+      args: Pallet,
+      user: UserIdWithToken
+    ) => {
+      if (!user.token) {
+        throw new GraphQLError('Not authorized', {
+          extensions: {code: 'UNAUTHENTICATED'},
+        });
+      }
       console.log(args);
       const pallet = new palletModel(args);
       return await pallet.save();
     },
-    updatePallet: async (_parent: undefined, args: Pallet) => {
+    updatePallet: async (
+      _parent: undefined,
+      args: Pallet,
+      user: UserIdWithToken
+    ) => {
+      if (!user.token) {
+        throw new GraphQLError('Not authorized', {
+          extensions: {code: 'UNAUTHENTICATED'},
+        });
+      }
       const now = new Date();
       args.lastModified = now;
 
@@ -43,7 +63,16 @@ export default {
         new: true,
       });
     },
-    deletePallet: async (_parent: undefined, args: Pallet) => {
+    deletePallet: async (
+      _parent: undefined,
+      args: Pallet,
+      user: UserIdWithToken
+    ) => {
+      if (!user.token) {
+        throw new GraphQLError('Not authorized', {
+          extensions: {code: 'UNAUTHENTICATED'},
+        });
+      }
       return await palletModel.findByIdAndDelete(args.id);
     },
   },
