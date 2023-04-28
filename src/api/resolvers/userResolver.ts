@@ -27,11 +27,20 @@ export default {
       user: UserIdWithToken
     ) => {
       console.log(user);
-      const response = await userModel.find({token: user.token});
+
+      const response = await userModel.findOne({_id: user.id});
       if (!response) {
         throw new GraphQLError('Invalid token');
       }
-      return response;
+      console.log('res', response);
+      const message = {
+        message: 'Valid token',
+        token: response.token,
+        username: response.username,
+        id: response._id,
+      };
+      console.log(message);
+      return message;
     },
   },
   Mutation: {
