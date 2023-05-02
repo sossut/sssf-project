@@ -6,10 +6,14 @@ const rowModel = new mongoose.Schema<Row>({
     unique: true,
     type: Number,
     required: true,
+    min: 1,
+    max: 30,
   },
   gaps: {
     type: Number,
     required: true,
+    min: 1,
+    max: 30,
   },
 });
 

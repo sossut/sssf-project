@@ -5,10 +5,14 @@ const gapModel = new mongoose.Schema<Gap>({
   gapNumber: {
     type: Number,
     required: true,
+    min: 1,
+    max: 30,
   },
   spots: {
     type: Number,
     default: 12,
+    min: 1,
+    max: 30,
   },
   row: {
     type: mongoose.Types.ObjectId,

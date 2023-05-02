@@ -5,6 +5,8 @@ const spotModel = new mongoose.Schema<Spot>({
   spotNumber: {
     type: Number,
     required: true,
+    min: 1,
+    max: 30,
   },
   gap: {
     type: mongoose.Types.ObjectId,
