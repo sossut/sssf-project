@@ -7,4 +7,11 @@ interface Gap extends Document {
   row: Types.ObjectId | Row;
 }
 
-export {Gap};
+interface TestGap {
+  id?: string;
+  gapNumber?: number;
+  spots?: number;
+  row?: string;
+}
+
+export {Gap, TestGap};

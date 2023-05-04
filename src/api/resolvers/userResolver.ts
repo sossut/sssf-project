@@ -1,12 +1,3 @@
-// TODO: Add resolvers for user
-// 1. Queries
-// 1.1. users
-// 1.2. userById
-// 2. Mutations
-// 2.1. createUser
-// 2.2. updateUser
-// 2.3. deleteUser
-
 import {User, UserIdWithToken, UserOutput} from '../../interfaces/User';
 import userModel from '../models/userModel';
 import {GraphQLError} from 'graphql';
@@ -16,10 +7,12 @@ import jwt from 'jsonwebtoken';
 export default {
   Query: {
     users: async () => {
-      return await userModel.find();
+      return await userModel.find().select('-password -token -__v -role - id');
     },
     userById: async (_parent: undefined, args: User) => {
-      return await userModel.findById(args.id);
+      return await userModel
+        .findById(args.id)
+        .select('-password -token -__v -role - id');
     },
     checkToken: async (
       _parent: undefined,
@@ -51,17 +44,21 @@ export default {
       }
       const ecryptedPassword = await bcrypt.hash(args.password, 10);
       args.password = ecryptedPassword;
+      console.log(args);
       const user = new userModel(args);
+
       const token = jwt.sign(
         {
           id: user._id,
           username: user.username,
         },
-        'secret',
+        process.env.JWT_SECRET!,
         {expiresIn: '365d'}
       );
       user.token = token;
-      return await user.save();
+      console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', user);
+      const result = await user.save();
+      return result;
     },
     loginUser: async (_parent: undefined, args: User) => {
       const user = await userModel.findOne({username: args.username});
@@ -71,7 +68,7 @@ export default {
             id: user._id,
             username: user.username,
           },
-          'secret',
+          process.env.JWT_SECRET!,
           {expiresIn: '365d'}
         );
         user.token = token;
@@ -87,11 +84,29 @@ export default {
         throw new GraphQLError('Invalid username or password');
       }
     },
-    updateUser: async (_parent: undefined, args: User) => {
+    updateUser: async (
+      _parent: undefined,
+      args: User,
+      user: UserIdWithToken
+    ) => {
+      if (!user.token) {
+        throw new GraphQLError('Not authorized', {
+          extensions: {code: 'UNAUTHENTICATED'},
+        });
+      }
       console.log(args);
       return await userModel.findByIdAndUpdate(args.id, args, {new: true});
     },
-    deleteUser: async (_parent: undefined, args: User) => {
+    deleteUser: async (
+      _parent: undefined,
+      args: User,
+      user: UserIdWithToken
+    ) => {
+      if (!user.token) {
+        throw new GraphQLError('Not authorized', {
+          extensions: {code: 'UNAUTHENTICATED'},
+        });
+      }
       return await userModel.findByIdAndDelete(args.id);
     },
   },

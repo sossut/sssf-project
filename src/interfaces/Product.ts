@@ -6,4 +6,11 @@ interface Product extends Document {
   code: string;
 }
 
-export {Product};
+interface TestProduct {
+  id?: string;
+  name?: string;
+  weight?: number;
+  code?: string;
+}
+
+export {Product, TestProduct};

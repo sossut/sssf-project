@@ -52,6 +52,7 @@ export default {
       args: any,
       user: UserIdWithToken
     ) => {
+      console.log(user);
       if (!user.token) {
         throw new GraphQLError('Not authorized', {
           extensions: {code: 'UNAUTHENTICATED'},

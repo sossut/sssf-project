@@ -4,5 +4,9 @@ interface Row extends Document {
   rowNumber: number;
   gaps: number;
 }
-
-export {Row};
+interface TestRow {
+  id?: string;
+  rowNumber?: number;
+  gaps?: number;
+}
+export {Row, TestRow};

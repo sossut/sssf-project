@@ -12,4 +12,14 @@ interface PalletSpot extends Document {
   disabled: boolean;
 }
 
-export {PalletSpot};
+interface TestPalletSpot {
+  id?: string;
+  row?: string;
+  gap?: number;
+  spot?: string;
+  pallet?: string;
+  shelf?: boolean;
+  disabled?: boolean;
+}
+
+export {PalletSpot, TestPalletSpot};

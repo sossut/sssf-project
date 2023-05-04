@@ -20,6 +20,7 @@ const userModel = new mongoose.Schema<User>({
   },
   token: {
     type: String,
+    required: false,
   },
 });
 

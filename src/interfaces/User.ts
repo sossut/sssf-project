@@ -16,4 +16,13 @@ interface UserIdWithToken {
   id: string;
   token: string;
 }
-export {User, UserOutput, UserIdWithToken};
+
+interface TestUser {
+  id?: string;
+  username?: string;
+  password?: string;
+  role?: 'user' | 'admin';
+  token?: string;
+}
+
+export {User, UserOutput, UserIdWithToken, TestUser};

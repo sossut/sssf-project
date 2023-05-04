@@ -6,4 +6,10 @@ interface Spot extends Document {
   gap: Types.ObjectId | Gap;
 }
 
-export {Spot};
+interface TestSpot {
+  id?: string;
+  spotNumber?: number;
+  gap?: string;
+}
+
+export {Spot, TestSpot};

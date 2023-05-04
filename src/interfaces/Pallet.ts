@@ -7,4 +7,11 @@ interface Pallet extends Document {
   lastModified: Date;
 }
 
-export {Pallet};
+interface TestPallet {
+  id?: string;
+  products?: Array<string>;
+  arrival?: Date;
+  lastModified?: Date;
+}
+
+export {Pallet, TestPallet};
