@@ -52,6 +52,7 @@ const app = express();
           ? ApolloServerPluginLandingPageProductionDefault({
               graphRef: 'my-graph-id@my-graph-variant',
               footer: false,
+              embed: true as false,
             })
           : ApolloServerPluginLandingPageLocalDefault({footer: false}),
       ],

@@ -1,4 +1,4 @@
-import {User, UserIdWithToken, UserOutput} from '../../interfaces/User';
+import {User, UserIdWithToken} from '../../interfaces/User';
 import userModel from '../models/userModel';
 import {GraphQLError} from 'graphql';
 import bcrypt from 'bcryptjs';
@@ -7,12 +7,12 @@ import jwt from 'jsonwebtoken';
 export default {
   Query: {
     users: async () => {
-      return await userModel.find().select('-password -token -__v -role - id');
+      const result = await userModel.find().select('username');
+      console.log(result);
+      return result;
     },
     userById: async (_parent: undefined, args: User) => {
-      return await userModel
-        .findById(args.id)
-        .select('-password -token -__v -role - id');
+      return await userModel.findById(args.id).select('username');
     },
     checkToken: async (
       _parent: undefined,
