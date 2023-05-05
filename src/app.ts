@@ -47,6 +47,7 @@ const app = express();
     );
     const server = new ApolloServer({
       schema,
+      introspection: true,
       plugins: [
         process.env.ENVIRONMENT === 'production'
           ? ApolloServerPluginLandingPageProductionDefault({
