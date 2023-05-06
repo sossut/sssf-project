@@ -9,8 +9,7 @@
     "build": "tsc",
     "copyGraphql": "copyfiles -E src/api/schemas/*.graphql dist",
     "postbuild": "npm run copyGraphql",
-    "lint": "eslint --fix src test",
-    "test": "jest --detectOpenHandles --forceExit --silent=false"
+    "lint": "eslint --fix src test"
   },
   "keywords": [],
   "repository": {
