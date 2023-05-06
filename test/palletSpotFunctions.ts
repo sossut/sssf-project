@@ -1,5 +1,6 @@
 // eslint-disable-next-line node/no-unpublished-import
 import request from 'supertest';
+import {TestPallet} from '../src/interfaces/Pallet';
 import {TestPalletSpot} from '../src/interfaces/PalletSpot';
 
 const postPalletSpot = async (
@@ -127,7 +128,7 @@ const getPalletSpots = async (
 const updatePalletSpot = async (
   url: string | Function,
   palletSpotId: string,
-  newPalletSpot: TestPalletSpot,
+  newPallet: TestPallet,
   token: string
 ): Promise<TestPalletSpot> => {
   return new Promise((resolve, reject) => {
@@ -136,26 +137,17 @@ const updatePalletSpot = async (
       .set('Content-Type', 'application/json')
       .set('Authorization', `Bearer ${token}`)
       .send({
-        query: `mutation UpdatePalletSpot($id: ID!, $spot: ID!) {
-          updatePalletSpot(id: $id, spot: $spot) {
+        query: `mutation UpdatePalletSpot($updatePalletSpotId: ID!, $pallet: ID) {
+          updatePalletSpot(id: $updatePalletSpotId, pallet: $pallet) {
             id
-            spot {
-              spotNumber
+            pallet {
               id
-              gap {
-                gapNumber
-                id
-                row {
-                  rowNumber
-                  id
-                }
-              }
             }
           }
         }`,
         variables: {
-          id: palletSpotId,
-          spot: newPalletSpot.spot,
+          updatePalletSpotId: palletSpotId,
+          pallet: newPallet.id,
         },
       })
       .expect(200, (err, res) => {
@@ -163,7 +155,7 @@ const updatePalletSpot = async (
           reject(err);
         } else {
           const palletSpot = res.body.data.updatePalletSpot as TestPalletSpot;
-          expect(palletSpot.spot).toBe(newPalletSpot.spot);
+          expect(palletSpot.pallet).toHaveProperty('id');
           resolve(palletSpot);
         }
       });

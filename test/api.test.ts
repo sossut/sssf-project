@@ -13,10 +13,15 @@ import {TestPalletSpot} from '../src/interfaces/PalletSpot';
 import {getRow, postRow} from './rowFunctions';
 import {getGap, postGap} from './gapFunctions';
 import {getSpot, postSpot} from './spotFunctions';
-import {getProduct, postProduct} from './productFunctions';
-import {getPallet, postPallet} from './palletFunctions';
-import {postPalletSpot} from './palletSpotFunctions';
-import {getUser, loginUser, postUser} from './userFunctions';
+import {deleteProduct, getProduct, postProduct} from './productFunctions';
+import {
+  deletePallet,
+  getPallet,
+  postPallet,
+  updatePallet,
+} from './palletFunctions';
+import {postPalletSpot, updatePalletSpot} from './palletSpotFunctions';
+import {deleteUser, getUser, loginUser, postUser} from './userFunctions';
 import {getNotFound} from './testFunctions';
 import LoginMessageResponse from '../src/interfaces/LoginMeesageResponse';
 
@@ -37,6 +42,7 @@ describe('GET /graphql', () => {
   let newGap: TestGap;
   let newSpot: TestSpot;
   let newProduct: TestProduct;
+  let newProduct2: TestProduct;
   let newPallet: TestPallet;
   let newPalletSpot: TestPalletSpot;
   let userData: LoginMessageResponse;
@@ -102,25 +108,53 @@ describe('GET /graphql', () => {
   });
   //AIKA LOPPU. EI KERKEÄ TEKEMÄÄN LOPPUUN
 
-  // const testProduct: TestProduct = {
-  //   name: 'Test Product',
-  //   weight: 1,
-  //   code: 'TP',
-  // };
+  const testProduct: TestProduct = {
+    name: 'Test Product',
+    weight: 1,
+    code: 'TP',
+  };
 
-  // it('should create a new product and pallet with the product', async () => {
-  //   newProduct = await postProduct(app, testProduct, userData.token!);
-  //   const testPallet: TestPallet = {
-  //     products: [newProduct.id!],
-  //   };
-  //   newPallet = await postPallet(app, testPallet, userData.token!);
-  // });
+  it('should create a new product and pallet with the product', async () => {
+    newProduct = await postProduct(app, testProduct, userData.token!);
+    console.log(newProduct);
+    const testPallet: TestPallet = {
+      products: [newProduct.id!],
+    };
+    newPallet = await postPallet(app, testPallet, userData.token!);
+  });
 
-  // it('should get the product', async () => {
-  //   await getProduct(app, newProduct.id!);
-  // });
+  it('should get the product', async () => {
+    await getProduct(app, newProduct.id!);
+  });
 
-  // it('should get the pallet', async () => {
-  //   await getPallet(app, newPallet.id!);
-  // });
+  it('should get the pallet', async () => {
+    await getPallet(app, newPallet.id!);
+  });
+  const tp2: TestProduct = {
+    name: 'Test Product 2',
+    weight: 1,
+    code: 'TP2',
+  };
+  it('should create a new preoduct update the pallet', async () => {
+    newProduct2 = await postProduct(app, tp2, userData.token!);
+    const testPallet: TestPallet = {
+      products: [newProduct2.id!],
+    };
+    await updatePallet(app, newPallet.id!, testPallet, userData.token!);
+  });
+  it('should update the pallet spot', async () => {
+    await updatePalletSpot(app, newPalletSpot.id!, newPallet, userData.token!);
+  });
+
+  //TODO
+  it('should delete the pallet', async () => {
+    await deletePallet(app, newPallet.id!, userData.token!);
+  });
+  it('should delete the products', async () => {
+    await deleteProduct(app, newProduct.id!, userData.token!);
+    await deleteProduct(app, newProduct2.id!, userData.token!);
+  });
+  it('should delete the user', async () => {
+    await deleteUser(app, userData.id, userData.token!);
+  });
 });

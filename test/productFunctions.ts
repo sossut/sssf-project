@@ -18,6 +18,7 @@ const postProduct = async (
             code
             name
             weight
+            id
           }
         }`,
         variables: {
@@ -51,19 +52,23 @@ const getProduct = async (
       .post('/graphql')
       .set('Content-Type', 'application/json')
       .send({
-        query: `query {
-          product(id: "${productId}") {
+        query: `query Query($productByIdId: ID!) {
+          productById(id: $productByIdId) {
+            id
             code
             name
             weight
           }
-        }`,
+          }`,
+        variables: {
+          productByIdId: productId,
+        },
       })
       .expect(200, (err, res) => {
         if (err) {
           reject(err);
         } else {
-          const product = res.body.data.product as TestProduct;
+          const product = res.body.data.productById as TestProduct;
           expect(product.id).toBe(productId);
           resolve(product);
         }
@@ -112,6 +117,7 @@ const deleteProduct = async (
             code
             name
             weight
+            id
           }
         }`,
       })
@@ -120,6 +126,7 @@ const deleteProduct = async (
           reject(err);
         } else {
           const product = res.body.data.deleteProduct as TestProduct;
+
           expect(product.id).toBe(productId);
           resolve(product);
         }

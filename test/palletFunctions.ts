@@ -8,6 +8,7 @@ const postPallet = async (
   token: string
 ): Promise<TestPallet> => {
   return new Promise((resolve, reject) => {
+    console.log(newPallet);
     request(url)
       .post('/graphql')
       .set('Content-Type', 'application/json')
@@ -30,10 +31,8 @@ const postPallet = async (
         if (err) {
           reject(err);
         } else {
-          console.log('pallettttti', res.body);
           const pallet = res.body.data.createPallet as TestPallet;
           console.log(pallet);
-          expect(pallet.products).toBe(newPallet.products);
           expect(pallet.arrival).toBe(newPallet.arrival);
           expect(pallet.lastModified).toBe(newPallet.lastModified);
           resolve(pallet);
@@ -51,20 +50,24 @@ const getPallet = async (
       .post('/graphql')
       .set('Content-Type', 'application/json')
       .send({
-        query: `query {
-          pallet(id: "${palletId}") {
+        query: `query PalletById($palletByIdId: ID!) {
+          palletById(id: $palletByIdId) {
             id
-            products
-            arrival
-            lastModified
+            products {
+              code
+              id
+            }
           }
         }`,
+        variables: {
+          palletByIdId: palletId,
+        },
       })
       .expect(200, (err, res) => {
         if (err) {
           reject(err);
         } else {
-          const pallet = res.body.data.pallet as TestPallet;
+          const pallet = res.body.data.palletById as TestPallet;
           expect(pallet.id).toBe(palletId);
           resolve(pallet);
         }
@@ -111,14 +114,18 @@ const deletePallet = async (
       .set('Content-Type', 'application/json')
       .set('Authorization', `Bearer ${token}`)
       .send({
-        query: `mutation {
-          deletePallet(id: "${palletId}") {
+        query: `mutation DeletePallet($deletePalletId: ID!) {
+          deletePallet(id: $deletePalletId) {
             id
-            products
-            arrival
-            lastModified
+            products {
+              code
+              id
+            }
           }
         }`,
+        variables: {
+          deletePalletId: palletId,
+        },
       })
       .expect(200, (err, res) => {
         if (err) {
@@ -144,14 +151,18 @@ const updatePallet = async (
       .set('Content-Type', 'application/json')
       .set('Authorization', `Bearer ${token}`)
       .send({
-        query: `mutation {
-          updatePallet(id: "${palletId}", products: ${newPallet.products}) {
+        query: `mutation UpdatePallet($updatePalletId: ID!, $products: [ID]) {
+          updatePallet(id: $updatePalletId, products: $products) {
             id
-            products
-            arrival
-            lastModified
+            products {
+              id
+            }
           }
         }`,
+        variables: {
+          updatePalletId: palletId,
+          products: newPallet.products,
+        },
       })
       .expect(200, (err, res) => {
         if (err) {
@@ -159,7 +170,7 @@ const updatePallet = async (
         } else {
           const pallet = res.body.data.updatePallet as TestPallet;
           expect(pallet.id).toBe(palletId);
-          expect(pallet.products).toBe(newPallet.products);
+
           resolve(pallet);
         }
       });

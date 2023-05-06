@@ -110,4 +110,37 @@ const loginUser = async (
   });
 };
 
-export {postUser, getUser, loginUser};
+const deleteUser = async (
+  url: string | Function,
+  userId: string,
+  token: string
+): Promise<TestUser> => {
+  return new Promise((resolve, reject) => {
+    request(url)
+      .post('/graphql')
+      .set('Content-Type', 'application/json')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        query: `mutation DeleteUser($id: ID!) {
+          deleteUser(id: $id) {
+            id
+            username
+          }
+        }`,
+        variables: {
+          id: userId,
+        },
+      })
+      .expect(200, (err, res) => {
+        if (err) {
+          reject(err);
+        } else {
+          const user = res.body.data.deleteUser as TestUser;
+          expect(user.id).toBe(userId);
+          resolve(user);
+        }
+      });
+  });
+};
+
+export {postUser, getUser, loginUser, deleteUser};
